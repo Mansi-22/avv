@@ -2,16 +2,18 @@
 import React from 'react'
 import Modal from './Modal'
 import {useState} from 'react'
-import axios from 'axios'
+//import axios from 'axios'
 
 const AddCuisines = () => {
     const [modalOpen,setModalOpen] =useState(false)
     const [inputs,setInputs] =useState({})
 const handleSubmit =(e) => {
-        e.preventDefault();
-        axios.post('/users',inputs).then((res) => {console.log(res)}).catch(err =>{
-            console.log(err)
-        }).finally(()=> {setInputs({});setModalOpen(false);})
+    e.preventDefault();
+    console.log(inputs);
+    setInputs({})
+        // axios.post('/users',inputs).then((res) => {console.log(res)}).catch(err =>{
+        //     console.log(err)
+        // }).finally(()=> {setInputs({});setModalOpen(false);})
     }
 const handleChange =(e) => {
     const name = e.target.name;
@@ -41,7 +43,7 @@ const handleChange =(e) => {
                     onChange={handleChange}
                 />
                 <button type="submit" className='bg-blue-700 text-white px-5 py-2'>Save</button>
-                <button type="submit" className='bg-blue-700 text-white px-5 py-2'>Cancel</button>
+                <button type="submit" className='bg-blue-700 text-white px-5 py-2' onClick={() => setModalOpen(false)}>Cancel</button>
             </form>
         </Modal>
     </div>
