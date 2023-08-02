@@ -9,7 +9,7 @@ export const GET = async (request, { params }) => {
        
         const cuisine = await prisma.cuisine.findUnique({
             where: {
-                id :id
+                id : parseInt(id)
             }
         });
            
@@ -22,6 +22,37 @@ export const GET = async (request, { params }) => {
 
 return NextResponse.json(cuisine);
     } catch(err) {
-        return NextResponse.json({message: "GET Error", err}, {status: 500})
+        return NextResponse.json({message: "GET i Error", err}, {status: 500})
     }
 }
+
+export const PATCH = async (request, {params}) => {
+    try {
+        const body = await request.json();
+        const {name, description} = body;
+
+        const {id} = params;
+
+        const updateCuisine = await prisma.cuisine.update({
+            where: {
+                id: parseInt(id)
+            },
+            data: {
+                name,
+                description
+            }
+        })
+
+        if (!updateCuisine) {
+            return NextResponse.json(
+                {message: "Cuisine not found", err},
+                {status: 404}
+            )
+            }
+
+        return NextResponse.json(updateCuisine);
+    } catch(err) {
+        return NextResponse.json({message: "update Error", err}, {status: 500})
+    }
+}
+

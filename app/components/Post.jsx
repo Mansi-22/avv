@@ -12,16 +12,16 @@ const Post = ({post}) => {
     const[openModalDelete,setOpenModalDelete] = useState(false);
 
     const handleEditSubmit =(e) => {
-        // e.preventDefault();
-        // axios.patch(`/api/posts/${post.id}`,postToEdit).then((res) => {console.log(res)}).catch(err =>{
-        //     console.log(err)
-        // }).finally(()=> {setModalOpen(false);router.refresh()})
+         e.preventDefault();
+        axios.patch(`/api/posts/${post.id}`,postToEdit).then((res) => {console.log(res)}).catch(err =>{
+            console.log(err)
+        }).finally(()=> {setModalOpenEdit(false);router.refresh()})
                 
     }
     const handleChange =(e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setModalOpenEdit(prevState => ({...prevState, [name]: value}));
+        setPostToEdit(prevState => ({...prevState, [name]: value}));
     }  
     const handleDeletePost=(id) => {
         console.log("deleted");
