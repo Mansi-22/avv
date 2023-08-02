@@ -2,22 +2,26 @@
 import React from 'react'
 import Modal from './Modal';
 import { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const Post = ({post}) => {
+    const router = useRouter();
     const [openModalEdit, setModalOpenEdit] = useState(false);
     const [postToEdit,setPostToEdit] =useState(post);
     const[openModalDelete,setOpenModalDelete] = useState(false);
 
     const handleEditSubmit =(e) => {
-        e.preventDefault();
-        console.log(postToEdit);
-        setModalOpenEdit({})
+        // e.preventDefault();
+        // axios.patch(`/api/posts/${post.id}`,postToEdit).then((res) => {console.log(res)}).catch(err =>{
+        //     console.log(err)
+        // }).finally(()=> {setModalOpen(false);router.refresh()})
                 
     }
     const handleChange =(e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setPostToEdit(prevState => ({...prevState, [name]: value}));
+        setModalOpenEdit(prevState => ({...prevState, [name]: value}));
     }  
     const handleDeletePost=(id) => {
         console.log("deleted");
