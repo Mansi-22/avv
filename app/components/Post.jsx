@@ -26,6 +26,7 @@ const Post = ({post}) => {
   return (
     <li className='p-3 my-5 bg-slate-200' key={post.id}>
     <h1 className='text-2xl font-bold'>{post.name}</h1>
+    <p>{post.description}</p>
     <div className='pt-5'>
         <button className='text-blue-700 mr-3' onClick={() => setModalOpenEdit(true)}>Edit</button>
         <Modal modelOpen ={openModalEdit} setModalOpen={setModalOpenEdit}>

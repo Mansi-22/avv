@@ -4,12 +4,17 @@ import AddCuisines from '../components/AddCuisines';
 import CuisinesList from '../components/CuisineList';
 
 async function getData(){
-    const res = await fetch("https://jsonplaceholder.typicode.com/users");
+    const res = await fetch("http://localhost:3000/api/posts");
+    // if(!res.ok){
+    //   throw new Error("Failed to fetch data")
+    // }
+
     return res.json();
 }
 
 const Cuisines = async() => {
     const posts = await getData();
+    //console.log(posts);
   return (
     <div>
         <Link href="/">Admin Panel</Link>
