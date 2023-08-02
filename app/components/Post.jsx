@@ -7,15 +7,15 @@ import { useRouter } from 'next/navigation';
 
 const Post = ({post}) => {
     const router = useRouter();
-    const [openModalEdit, setModalOpenEdit] = useState(false);
+    const [openModalEdit, setOpenModalEdit] = useState(false);
     const [postToEdit,setPostToEdit] =useState(post);
-    const[openModalDelete,setOpenModalDelete] = useState(false);
+     const[openModalDelete,setOpenModalDelete] = useState(false);
 
     const handleEditSubmit =(e) => {
          e.preventDefault();
         axios.patch(`/api/posts/${post.id}`,postToEdit).then((res) => {console.log(res)}).catch(err =>{
             console.log(err)
-        }).finally(()=> {setModalOpenEdit(false);router.refresh()})
+        }).finally(()=> {setOpenModalEdit(false);router.refresh()})
                 
     }
     const handleChange =(e) => {
@@ -24,7 +24,9 @@ const Post = ({post}) => {
         setPostToEdit(prevState => ({...prevState, [name]: value}));
     }  
     const handleDeletePost=(id) => {
-        console.log("deleted");
+        axios.delete(`/api/posts/${id}`).then((res) => {console.log(res)}).catch(err =>{
+            console.log(err)
+        }).finally(()=> {setOpenModalDelete(false);router.refresh()})
     }          
     
   return (
@@ -32,8 +34,8 @@ const Post = ({post}) => {
     <h1 className='text-2xl font-bold'>{post.name}</h1>
     <p>{post.description}</p>
     <div className='pt-5'>
-        <button className='text-blue-700 mr-3' onClick={() => setModalOpenEdit(true)}>Edit</button>
-        <Modal modelOpen ={openModalEdit} setModalOpen={setModalOpenEdit}>
+        <button className='text-blue-700 mr-3' onClick={() => setOpenModalEdit(true)}>Edit</button> 
+         <Modal modelOpen ={openModalEdit} setModalOpen={setOpenModalEdit}>
             <form className='w-full' onSubmit={handleEditSubmit}>
                 <h1 className='text-2xl pb-3'>Add New Cuisine</h1>
                 <input 
@@ -53,20 +55,22 @@ const Post = ({post}) => {
                     onChange={handleChange}
                 />
                 <button type="submit" className='bg-blue-700 text-white px-5 py-2'>Save</button>
-                <button type="submit" className='bg-blue-700 text-white px-5 py-2' onClick={() => setModalOpenEdit(false)}>Cancel</button>
-            </form>
-        </Modal>
-        <button onClick={() => setOpenModalDelete(true)} className='text-red-700 mr-3'>Delete</button>
-        <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
-	        <h1 className="text-2xl pb-3"> Are you sure of this action?</h1>
-            <div>
-	        <button onClick={() => handleDeletePost(post.id)} classname="text-blue-700 font-bold mr-5">YES</button>
-	        <button onClick={() => setOpenModalDelete(false)} classname="text-red-700 font-bold mr-5">NO</button>	
-            </div>
-        </Modal>
+                <button type="submit" className='bg-blue-700 text-white px-5 py-2' onClick={() => setOpenModalEdit(false)}>Cancel</button>
+            </form> 
+         </Modal>
+       
+        <button className='text-red-700 mr-3' onClick={() => setOpenModalDelete(true)} > Delete </button>
+         <Modal modelOpen ={openModalDelete} setModalOpen={setOpenModalDelete}>
+        <h1 className='text-2xl pb-3'>Are you sure you want to delete it?</h1>
+        <div>
+            <button onClick={()=>handleDeletePost(post.id)} className='text-blue-700 font-bold mr-5'>YES</button>
+            <button onClick={() => setOpenModalDelete(false)} className='text-red-700 font-bold mr-5'>NO</button>
+
+        </div>
+        </Modal> 
     </div>
     </li>
   )
 }
 
-export default Post
+export default Post;

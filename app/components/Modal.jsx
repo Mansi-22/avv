@@ -12,6 +12,7 @@ const Modal = ({children,modelOpen,setModalOpen}) => {
             &times;
         </button>
         {children}
+        
             </div>
             </div>
     </div>

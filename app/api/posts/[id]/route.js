@@ -56,3 +56,16 @@ export const PATCH = async (request, {params}) => {
     }
 }
 
+export const DELETE = async (request, { params }) => {
+    try {
+        const { id } = params;
+         await prisma.cuisine.delete({
+            where: {
+                id : parseInt(id)
+            }
+        });   
+return NextResponse.json("Cuisine has beeen deleted");
+    } catch(err) {
+        return NextResponse.json({message: "DELETE Error", err}, {status: 500})
+    }
+}
