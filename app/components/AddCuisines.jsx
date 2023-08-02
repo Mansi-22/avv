@@ -7,23 +7,21 @@ import {useRouter} from 'next/navigation'
 
 const AddCuisines = () => {
     const router = useRouter();
-
-
     const [modalOpen,setModalOpen] =useState(false)
     const [inputs,setInputs] =useState({})
-const handleSubmit =(e) => {
-    e.preventDefault();
-    
-        axios.post('/api/posts',inputs).then((res) => {console.log(res)}).catch(err =>{
-            console.log(err)
-        }).finally(()=> {setInputs({});setModalOpen(false);router.refresh()})
+    const handleSubmit =(e) => {
+        e.preventDefault();
+        axios.post('/api/posts',inputs)
+        .then((res) => {console.log(res)})
+        .catch(err =>{console.log(err)})
+        .finally(()=> {setInputs({});setModalOpen(false);router.refresh()})
     }
-const handleChange =(e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs(prevState => ({...prevState, [name]: value}));
-}    
-  return (
+    const handleChange =(e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setInputs(prevState => ({...prevState, [name]: value}));
+    }    
+return (
     <div>
         <button onClick={() => setModalOpen(true)} className='bg-blue-700 text-white p-3 cursor-pointer'>Add New Cuisines</button>
         <Modal modelOpen ={modalOpen} setModalOpen={setModalOpen}>

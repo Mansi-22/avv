@@ -8,7 +8,6 @@ async function getData(){
     // if(!res.ok){
     //   throw new Error("Failed to fetch data")
     // }
-
     return res.json();
 }
 
@@ -21,7 +20,6 @@ const Cuisines = async() => {
         <h1 className='text-4x1'>Cuisines</h1>
         <AddCuisines/>
         <CuisinesList posts={posts} />
-
     </div>
   )
 }

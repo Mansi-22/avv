@@ -5,7 +5,7 @@ export const Settings = () => {
   return (
     <div>Settings
         <Link href="/">Admin Panel</Link>
-         </div>
+    </div>
   )
 }
 

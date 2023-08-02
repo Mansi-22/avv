@@ -5,9 +5,9 @@ const CuisinesList = ({posts}) => {
   return (
     <ul>
         {
-            posts.map(post => (
-                <Post key={post.id} post ={post} />
-            ))      
+          posts.map(post => (
+            <Post key={post.id} post ={post} />
+          ))      
         }
     </ul>
   )
