@@ -2,18 +2,23 @@
 import React from 'react'
 import Modal from './Modal'
 import {useState} from 'react'
-//import axios from 'axios'
+import axios from 'axios'
+import {useRouter} from 'next/navigation'
 
 const AddCuisines = () => {
+    const router = useRouter();
+
+
     const [modalOpen,setModalOpen] =useState(false)
     const [inputs,setInputs] =useState({})
 const handleSubmit =(e) => {
     e.preventDefault();
     console.log(inputs);
     setInputs({})
-        // axios.post('/users',inputs).then((res) => {console.log(res)}).catch(err =>{
-        //     console.log(err)
-        // }).finally(()=> {setInputs({});setModalOpen(false);})
+    
+        axios.post('/api/posts',inputs).then((res) => {console.log(res)}).catch(err =>{
+            console.log(err)
+        }).finally(()=> {setInputs({});setModalOpen(false);router.refresh()})
     }
 const handleChange =(e) => {
     const name = e.target.name;
