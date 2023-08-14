@@ -16,8 +16,6 @@ const DropDown = ({posts}) => {
                 <option>{post.name}</option>
               ))
       }
-
-
       </select>
       {selectedOption && (
         <p>You selected: {selectedOption}</p>

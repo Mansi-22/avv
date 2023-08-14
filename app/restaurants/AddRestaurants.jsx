@@ -5,11 +5,11 @@ import {useState} from 'react'
 import axios from 'axios'
 import {useRouter} from 'next/navigation'
 
-const AddRestaurants = () => {
+const AddRestaurants = ({posts}) => {
     const router = useRouter();
     const [modalOpen,setModalOpen] =useState(false)
     const [inputs,setInputs] =useState({})
-    
+
     const handleSubmit =(e) => {
     e.preventDefault();
     axios.post('/api/ress',inputs)
@@ -21,7 +21,8 @@ const handleChange =(e) => {
     const name = e.target.name;
     const value = e.target.value;
     setInputs(prevState => ({...prevState, [name]: value}));
-}    
+} 
+
   return (
     <div>
         <button onClick={() => setModalOpen(true)} className='bg-blue-700 text-white p-3 cursor-pointer'>Add New Restaurants</button>
@@ -44,6 +45,14 @@ const handleChange =(e) => {
                     value={inputs.description || ""}
                     onChange={handleChange}
                 />
+                <div>
+                  <select value={inputs.cuis} onChange={handleChange} name="cuis">
+                    {posts.map(post => (
+                        <option>{post.name}</option>
+                    ))
+                    }
+                </select>
+                </div>
                 <input
                     type="text"
                     placeholder='address'
@@ -60,7 +69,7 @@ const handleChange =(e) => {
                     value={inputs.resimage || ""}
                     onChange={handleChange}
                     />    
-                  
+                 
                 <button type="submit" className='bg-blue-700 text-white px-5 py-2'>Save</button>
                 <button type="submit" className='bg-blue-700 text-white px-5 py-2' onClick={() => setModalOpen(false)}>Cancel</button>
             </form>

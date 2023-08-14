@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from'next/link'
-import DropDown from './DropDown';
 import AddRestaurants from './AddRestaurants';
 import RestaurantList from './RestaurantList';
 
@@ -23,9 +22,8 @@ export const Restaurants = async() => {
   return (
     <div>
       Restaurants <Link href="/">Admin Panel</Link>
-      <AddRestaurants/>
-      <RestaurantList restaurants ={restaurants}/>
-      <DropDown posts={posts}/>
+      <AddRestaurants posts={posts}/>
+      <RestaurantList restaurants ={restaurants} posts={posts}/>
     </div>
   )
 }

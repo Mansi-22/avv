@@ -5,7 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-const restaurant = ({post}) => {
+const restaurant = ({post,posts}) => {
   const router = useRouter();
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [postToEdit,setPostToEdit] = useState(post);
@@ -32,6 +32,7 @@ const restaurant = ({post}) => {
     <li className='p-3 my-5 bg-slate-200' key={post.id}>
       <h1 className='text-2xl font-bold'>{post.name}</h1>
       <p>{post.description}</p>
+      <p>{post.cuis}</p>
       <p>{post.address}</p>
       <p>{post.resimage}</p>
       <div className='pt-5'>
@@ -55,6 +56,14 @@ const restaurant = ({post}) => {
               value={postToEdit.description || ""}
               onChange={handleChange}
             />
+            <div>
+                <select value={postToEdit.cuis} onChange={handleChange} name="cuis">
+                  {posts.map(post => (
+                    <option>{post.name}</option>
+                    ))
+                  }
+                </select>
+              </div>
             <input
               type="text"
               placeholder='address'

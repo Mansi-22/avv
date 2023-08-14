@@ -26,7 +26,7 @@ export const GET = async (request, { params }) => {
 export const PATCH = async (request, {params}) => {
     try {
         const body = await request.json();
-        const {name, description,address,resimage} = body;
+        const {name, description,address,resimage,cuis} = body;
         const {id} = params;
         const updateRestaurant = await prisma.Restaurants.update({
             where: {
@@ -35,7 +35,7 @@ export const PATCH = async (request, {params}) => {
             data: {
                 name,
                 description
-                ,address,resimage
+                ,address,resimage,cuis
             }
             })
         if (!updateRestaurant) {

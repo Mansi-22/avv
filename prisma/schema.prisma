@@ -24,4 +24,5 @@ model Restaurants{
   address String
   cuisine cuisine @relation(fields: [resid], references: [id])
   resimage String
+  cuis String
 }

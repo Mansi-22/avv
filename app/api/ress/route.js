@@ -14,13 +14,14 @@ export const GET = async () => {
 export const POST = async (request) => {
     try {
         const body = await request.json();
-        const {name, description,address,resimage} = body;
+        const {name, description,address,resimage,cuis} = body;
         const newPost = await prisma.Restaurants.create({
             data: {
                 name,
                 description,
                 address,
-                resimage
+                resimage,
+                cuis
             }
         })
         return NextResponse.json(newPost);
