@@ -11,17 +11,40 @@ const AddRestaurants = ({posts}) => {
     const [inputs,setInputs] =useState({})
 
     const handleSubmit =(e) => {
-    e.preventDefault();
-    axios.post('/api/ress',inputs)
-    .then((res) => {console.log(res)})
-    .catch(err =>{console.log(err)})
-    .finally(()=> {setInputs({});setModalOpen(false);router.refresh()})
-}
-const handleChange =(e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setInputs(prevState => ({...prevState, [name]: value}));
-} 
+        e.preventDefault();
+        if(validateForm()){
+            axios.post('/api/ress',inputs)
+            .then((res) => {console.log(res)})
+            .catch(err =>{console.log(err)})
+            .finally(()=> {setInputs({});setModalOpen(false);router.refresh()})
+        }
+    }
+    const handleChange =(e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setInputs(prevState => ({...prevState, [name]: value}));
+    } 
+    const [errors, setErrors] = useState({});
+    const validateForm = () => {
+        const newErrors = {};
+        if (!inputs.name) {
+            newErrors.name = 'name is required.';
+        } 
+        // else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        //   newErrors.email = 'Invalid email format.';
+        // }
+        if (!inputs.description) {
+            newErrors.description = 'Description is required.';
+        }
+        if (!inputs.cuis) {
+            newErrors.cuis = 'Please select a cuisine.';
+        }
+        if (!inputs.address) {
+            newErrors.address = 'Address is required.';
+        }  
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
   return (
     <div>
@@ -37,6 +60,7 @@ const handleChange =(e) => {
                     value={inputs.name || ""}
                     onChange={handleChange}
                 />
+                {errors.name && <div className="error">{errors.name}</div>}
                 <input 
                     type ="text"
                     placeholder='Description'
@@ -45,14 +69,16 @@ const handleChange =(e) => {
                     value={inputs.description || ""}
                     onChange={handleChange}
                 />
+                {errors.description && <div className="error">{errors.description}</div>}
                 <div>
-                  <select value={inputs.cuis} onChange={handleChange} name="cuis">
-                    {posts.map(post => (
-                        <option>{post.name}</option>
-                    ))
-                    }
-                </select>
+                    <select value={inputs.cuis} onChange={handleChange} name="cuis">
+                        {posts.map(post => (
+                            <option>{post.name}</option>
+                        ))
+                        }
+                    </select>
                 </div>
+                {errors.cuis && <div className="error">{errors.cuis}</div>}
                 <input
                     type="text"
                     placeholder='address'
@@ -61,6 +87,7 @@ const handleChange =(e) => {
                     value={inputs.address || ""}
                     onChange={handleChange}
                     />
+                {errors.address && <div className="error">{errors.address}</div>}    
                 <input
                     type="text"
                     placeholder='resimage'
@@ -69,7 +96,7 @@ const handleChange =(e) => {
                     value={inputs.resimage || ""}
                     onChange={handleChange}
                     />    
-                 
+                 {/* {errors.resimage && <div className="error">{errors.resimage}</div>} */}
                 <button type="submit" className='bg-blue-700 text-white px-5 py-2'>Save</button>
                 <button type="submit" className='bg-blue-700 text-white px-5 py-2' onClick={() => setModalOpen(false)}>Cancel</button>
             </form>

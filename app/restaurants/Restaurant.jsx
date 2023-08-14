@@ -12,10 +12,12 @@ const restaurant = ({post,posts}) => {
     const [openModalDelete,setOpenModalDelete] = useState(false);
     const handleEditSubmit =(e) => {
         e.preventDefault();
-        axios.patch(`/api/ress/${post.resid}`,postToEdit)
-        .then((res) => {console.log(res)})
-        .catch(err =>{console.log(err)})
-        .finally(()=> {setOpenModalEdit(false);router.refresh()})         
+        if(validateForm()){
+          axios.patch(`/api/ress/${post.resid}`,postToEdit)
+          .then((res) => {console.log(res)})
+          .catch(err =>{console.log(err)})
+          .finally(()=> {setOpenModalEdit(false);router.refresh()})   
+        }      
     }
     const handleChange =(e) => {
         const name = e.target.name;
@@ -27,7 +29,26 @@ const restaurant = ({post,posts}) => {
         .then((res) => {console.log(res)})
         .catch(err =>{console.log(err)})
         .finally(()=> {setOpenModalDelete(false);router.refresh()})
-    }          
+    } 
+    const [errors, setErrors] = useState({});
+    const validateForm = () => {
+      const newErrors = {};
+      if (!postToEdit.name) {
+        newErrors.name = 'name is required.';
+      } 
+      if (!postToEdit.description) {
+        newErrors.description = 'Description is required.';
+      }
+      if (!postToEdit.cuis) {
+        newErrors.cuis = 'Please select a cuisine.';
+        }
+      if (!postToEdit.address) {
+        newErrors.address = 'Address is required.';
+        }  
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+  };
+
   return (
     <li className='p-3 my-5 bg-slate-200' key={post.id}>
       <h1 className='text-2xl font-bold'>{post.name}</h1>
@@ -48,6 +69,7 @@ const restaurant = ({post,posts}) => {
               value={postToEdit.name || ""}
               onChange={handleChange}
             />
+            {errors.name && <div className="error">{errors.name}</div>}
             <input 
               type ="text"
               placeholder='Description'
@@ -56,14 +78,16 @@ const restaurant = ({post,posts}) => {
               value={postToEdit.description || ""}
               onChange={handleChange}
             />
+            {errors.description && <div className="error">{errors.description}</div>}
             <div>
-                <select value={postToEdit.cuis} onChange={handleChange} name="cuis">
-                  {posts.map(post => (
-                    <option>{post.name}</option>
-                    ))
-                  }
-                </select>
-              </div>
+              <select value={postToEdit.cuis} onChange={handleChange} name="cuis">
+                {posts.map(post => (
+                  <option>{post.name}</option>
+                  ))
+                }
+              </select>
+            </div>
+            {errors.cuis && <div className="error">{errors.cuis}</div>}
             <input
               type="text"
               placeholder='address'
@@ -72,6 +96,7 @@ const restaurant = ({post,posts}) => {
               value={postToEdit.address || ""}
               onChange={handleChange}
             />
+            {errors.address && <div className="error">{errors.address}</div>}   
             <input
               type="text"
               placeholder='resimage'

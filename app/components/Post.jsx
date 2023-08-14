@@ -12,10 +12,12 @@ const Post = ({post}) => {
     const [openModalDelete,setOpenModalDelete] = useState(false);
     const handleEditSubmit =(e) => {
         e.preventDefault();
-        axios.patch(`/api/posts/${post.id}`,postToEdit)
-        .then((res) => {console.log(res)})
-        .catch(err =>{console.log(err)})
-        .finally(()=> {setOpenModalEdit(false);router.refresh()})         
+        if(validateForm()){
+            axios.patch(`/api/posts/${post.id}`,postToEdit)
+            .then((res) => {console.log(res)})
+            .catch(err =>{console.log(err)})
+            .finally(()=> {setOpenModalEdit(false);router.refresh()})
+        }         
     }
     const handleChange =(e) => {
         const name = e.target.name;
@@ -27,7 +29,22 @@ const Post = ({post}) => {
         .then((res) => {console.log(res)})
         .catch(err =>{console.log(err)})
         .finally(()=> {setOpenModalDelete(false);router.refresh()})
-    }          
+    }
+    const [errors, setErrors] = useState({});
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!postToEdit.name) {
+        newErrors.name = 'name is required.';
+        } 
+    
+        if (!postToEdit.description) {
+        newErrors.description = 'Description is required.';
+        }
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };          
     return(
         <li className='p-3 my-5 bg-slate-200' key={post.id}>
             <h1 className='text-2xl font-bold'>{post.name}</h1>
@@ -45,6 +62,7 @@ const Post = ({post}) => {
                             value={postToEdit.name || ""}
                             onChange={handleChange}
                         />
+                        {errors.name && <div className="error">{errors.name}</div>}
                         <input 
                             type ="text"
                             placeholder='Description'
@@ -53,6 +71,7 @@ const Post = ({post}) => {
                             value={postToEdit.description || ""}
                             onChange={handleChange}
                         />
+                        {errors.description && <div className="error">{errors.description}</div>}
                         <button type="submit" className='bg-blue-700 text-white px-5 py-2'>Save</button>
                         <button type="submit" className='bg-blue-700 text-white px-5 py-2' onClick={() => setOpenModalEdit(false)}>Cancel</button>
                     </form> 
