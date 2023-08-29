@@ -1,10 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import DropDownMenu from '@/app/components/DropdownMenu'
 
 export const Homepage = () => {
   return (
     <div>
       <h1>Homepage </h1>
+      <DropDownMenu/>
       <ul>
         <li><Link href="/advertisement">Advertisement</Link></li>
         <li><Link href="/cuisines">Cuisines</Link></li>
