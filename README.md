@@ -1,3 +1,8 @@
+1.CRUD operation : https://www.youtube.com/watch?v=KvesFlTVCaI
+2.Prisma use for api.
+3.Planetscale for database (mysql)
+4.Testing api on Postman
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
