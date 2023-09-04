@@ -2,6 +2,7 @@ import prisma from "@/app/libs/prismadb"
 import { data } from "autoprefixer";
 import { NextResponse } from "next/server"
 import bcryptjs from 'bcryptjs';
+import  jwt  from "jsonwebtoken"; 
 
 export const POST = async (request) => {
     //console.log("i am here")
@@ -35,7 +36,28 @@ export const POST = async (request) => {
         //     return NextResponse.json({error: "Invalid password"}, {status: 400})
         // }
        // console.log(user);
-        return NextResponse.json({message: "Login successful"},{status: 200});
+
+       //create token data
+       const tokenData = {
+           id: user.id,
+           name: user.name,
+           address: user.address
+       }
+       //create token
+       const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {expiresIn: "1h"})
+
+       const response = NextResponse.json({
+           message: "Login successful",
+           success: true,
+       })
+       response.cookies.set("token", token, {
+           httpOnly: true, 
+           
+       })
+       return response;
+
+
+       // return NextResponse.json({message: "Login successful"},{status: 200});
     } catch(err) {
         return NextResponse.json({message: "Login Error", err}, {status: 500})
     }

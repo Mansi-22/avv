@@ -63,12 +63,12 @@ const DropdownMenu = () => {
     const menuRef = useRef();
     const imgRef = useRef();
 
-    window.addEventListener('click',(e)=>{
+    // window.addEventListener('click',(e)=>{
     
-        if (e.target !== menuRef.current && e.target !== imgRef.current){
-            setOpen(false);
-        }
-    })
+    //     if (e.target !== menuRef.current && e.target !== imgRef.current){
+    //         setOpen(false);
+    //     }
+    // })
 
   return (
     
