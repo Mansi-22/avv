@@ -9,13 +9,16 @@ export const POST = async (request) => {
     try {
         const body = await request.json();
         const {name,address} = body;
-        //console.log(body.name);
-        const user = await prisma.Restaurants.findUnique({
+        console.log(body.name);
+        //finunique is best thing to use but for that if name used that should be unique field.
+        //findFirst searches first value and ignores.
+        const user = await prisma.Restaurants.findFirst({
             where: {
-               resid: 2,
+            //    resid: 2,
+            name: body.name,
             }
         });  
-        // console.log(user); 
+         console.log(user); 
         // console.log(body.name);
         // console.log(user.name);
         if (body.name != user.name) {

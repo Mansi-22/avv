@@ -8,7 +8,7 @@ const RestaurantList = ({restaurants,posts}) => {
     <ul>
         {
             restaurants.map(post => (
-                <Restaurant key={post.id} post ={post} posts={posts} />
+                <Restaurant key={post.resid} post ={post} posts={posts} />
               ))
         }
 
